@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS answers (
     id INTEGER PRIMARY KEY,
     question_id INTEGER,
     user_id INTEGER not null,
-    messsage TEXT not null,
+    message TEXT not null,
     submission_time DATE not null,
     FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
