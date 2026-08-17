@@ -1,4 +1,4 @@
 askmate.database.url=${DATABASE_URL}
 askmate.database.username=${DATABASE_USERNAME}
 askmate.database.password=${DATABASE_PASSWORD}
-server.port=8081
+
