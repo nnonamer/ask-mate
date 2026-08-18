@@ -2,6 +2,7 @@ package com.codecool.askmateoop.configuration;
 
 import com.codecool.askmateoop.dao.QuestionsDAO;
 import com.codecool.askmateoop.dao.QuestionsDaoJdbc;
+import database.DatabaseConnection;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 
@@ -13,8 +14,13 @@ public class Configuration {
 //    private String databaseUrl;
 
     @Bean
-    public QuestionsDAO questionsDAO() {
-        return new QuestionsDaoJdbc();
+    public DatabaseConnection databaseConnection(){
+        return new DatabaseConnection();
+    }
+
+    @Bean
+    public QuestionsDAO questionsDAO(DatabaseConnection databaseConnection) {
+        return new QuestionsDaoJdbc(databaseConnection);
     }
 
 }
