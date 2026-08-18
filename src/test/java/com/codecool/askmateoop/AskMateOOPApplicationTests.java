@@ -1,5 +1,6 @@
 package com.codecool.askmateoop;
 
+import database.DatabaseConnection;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +27,8 @@ class AskMateOOPApplicationTests {
 
     @Test
     void testDatabaseConnection() {
-        try (Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        DatabaseConnection databaseConnection = new DatabaseConnection(dbUrl, dbUser, dbPassword);
+        try (Connection connection = databaseConnection.getConnection();
              Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery("SELECT 1")) {
 
