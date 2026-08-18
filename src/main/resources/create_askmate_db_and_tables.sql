@@ -1,27 +1,28 @@
 CREATE DATABASE askmate;
 
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    registration_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    points INTEGER DEFAULT 0
+);
+
 CREATE TABLE IF NOT EXISTS questions (
-    id INTEGER PRIMARY KEY,
-    user_id INTEGER not null,
-    title TEXT not null,
-    description TEXT not null,
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    submission_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS answers (
-    id INTEGER PRIMARY KEY,
-    question_id INTEGER,
-    user_id INTEGER not null,
-    message TEXT not null,
-    submission_time DATE not null,
+    id SERIAL PRIMARY KEY,
+    question_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    message TEXT NOT NULL,
+    submission_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY,
-    username TEXT not null,
-    password TEXT not null,
-    registration_date DATE not null,
-    points INTEGER
 );
