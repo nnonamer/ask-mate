@@ -20,7 +20,8 @@ public class Configuration {
 
     @Bean
     public QuestionsDAO questionsDAO(DatabaseConnection databaseConnection) {
-        return new QuestionsDaoJdbc(databaseConnection);
+        //TODO updated QuestionsDaoJdbc needed
+        return new QuestionsDaoJdbc();
     }
 
 }
