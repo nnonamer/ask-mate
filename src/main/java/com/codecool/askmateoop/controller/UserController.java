@@ -39,9 +39,11 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public void logout(HttpSession session) {
+    public ResponseEntity<Void> logout(HttpSession session) {
         session.invalidate();
+        return ResponseEntity.ok().build();
     }
+
 
     @GetMapping("/{id}/points")
     public int getPointsById(@PathVariable int id){

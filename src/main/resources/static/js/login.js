@@ -23,7 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                window.location.href = '/api/question/all';
+                const user = await response.json();
+                sessionStorage.setItem('userId', user.id);
+                sessionStorage.setItem('username', user.username);
+                window.location.href = '/';
             } else {
                 message.style.color = 'red';
                 message.textContent = 'Invalid username or password.';
