@@ -42,4 +42,9 @@ public class UserController {
     public void logout(HttpSession session) {
         session.invalidate();
     }
+
+    @GetMapping("/{id}/poinsts")
+    public int getPointsById(@PathVariable int id){
+
+    }
 }

@@ -7,4 +7,6 @@ public interface UsersDAO {
     int addNewUser(NewUserDTO user);
 
     User getUserByUsername(String username);
+
+    int getUserByPoints(int id);
 }

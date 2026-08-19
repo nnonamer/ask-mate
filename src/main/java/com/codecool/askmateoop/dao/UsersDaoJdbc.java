@@ -72,4 +72,9 @@ public class UsersDaoJdbc implements UsersDAO {
             throw new RuntimeException("Failed to get user by username: " + username, e);
         }
     }
+
+    @Override
+    public int getUserByPoints(int id) {
+        String sql = "SELECT COUNT(*) FROM "
+    }
 }
