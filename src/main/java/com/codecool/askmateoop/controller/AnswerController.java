@@ -5,7 +5,10 @@ import com.codecool.askmateoop.controller.dto.NewAnswerDTO;
 import com.codecool.askmateoop.controller.dto.NewQuestionDTO;
 import com.codecool.askmateoop.controller.dto.QuestionDTO;
 import com.codecool.askmateoop.service.AnswerService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +29,10 @@ public class AnswerController {
     }
 
     @PostMapping("/")
-    public int addNewAnswer(@RequestBody NewAnswerDTO answer) {
+    public ResponseEntity<Integer> addNewAnswer(@RequestBody NewAnswerDTO answer, HttpSession session) {
+        if (session.getAttribute("userId") == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 //        TODO
         throw new UnsupportedOperationException();
     }

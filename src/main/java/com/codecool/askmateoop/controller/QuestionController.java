@@ -4,7 +4,10 @@ import com.codecool.askmateoop.controller.dto.NewQuestionDTO;
 import com.codecool.askmateoop.controller.dto.QuestionDTO;
 import com.codecool.askmateoop.dao.model.Question;
 import com.codecool.askmateoop.service.QuestionService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +33,11 @@ public class QuestionController {
     }
 
     @PostMapping("/")
-    public int addNewQuestion(@RequestBody NewQuestionDTO question) {
-        return questionService.addNewQuestion(question);
+    public ResponseEntity<Integer> addNewQuestion(@RequestBody NewQuestionDTO question, HttpSession session) {
+        if (session.getAttribute("userId") == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(questionService.addNewQuestion(question));
     }
 
     @DeleteMapping("/{id}")
