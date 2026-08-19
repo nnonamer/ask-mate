@@ -77,11 +77,13 @@ public class AnswersDaoJdbc implements AnswersDAO {
 
     @Override
     public int addNewAnswer(NewAnswerDTO answer) {
-        String sql = "INSERT INTO answer (message) VALUES(?) RETURNING id";
+        String sql = "INSERT INTO answers (message, question_id, user_id) VALUES(?, ?, ?) RETURNING id";
 
         try (Connection conn = databaseConnection.getConnection()){
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, answer.message());
+            statement.setInt(2, answer.questionId());
+            statement.setInt(3, answer.userId());
 
             ResultSet rs = statement.executeQuery();
             rs.next();

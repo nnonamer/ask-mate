@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS answers (
     question_id INTEGER,
     user_id INTEGER NOT NULL,
     message TEXT NOT NULL,
-    submission_time DATE NOT NULL,
+    submission_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
