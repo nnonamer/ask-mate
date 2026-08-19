@@ -26,7 +26,7 @@ public class AnswersDaoJdbc implements AnswersDAO {
     public List<Answer> getAllAnswersForQuestion(int id) {
         String sql = """
                 SELECT id, question_id, user_id, message, submission_time
-                FROM answer
+                FROM answers
                 WHERE question_id = ?
                 ORDER BY submission_time DESC
                 """;

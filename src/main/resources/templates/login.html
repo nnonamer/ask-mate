@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Log in - Ask Mate</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1>Log in</h1>
+<p>Log in with your existing account.</p>
+
+<form id="login-form">
+	<label for="username">Username</label>
+	<input type="text" id="username" name="username" required>
+
+	<label for="password">Password</label>
+	<input type="password" id="password" name="password" required>
+
+	<button type="submit">Log in</button>
+</form>
+
+<p id="login-message"></p>
+
+<a href="/register">Register a new account</a><br>
+<a href="/">Back to home</a>
+
+<script th:src="@{/js/login.js}"></script>
+</body>
+</html>
