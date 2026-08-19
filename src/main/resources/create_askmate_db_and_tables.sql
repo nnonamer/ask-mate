@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS users (
     username TEXT NOT NULL,
     password TEXT NOT NULL,
     registration_date DATE NOT NULL,
-    points INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS questions (
