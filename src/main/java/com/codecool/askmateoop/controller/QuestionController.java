@@ -1,5 +1,6 @@
 package com.codecool.askmateoop.controller;
 
+import com.codecool.askmateoop.controller.dto.NewAnswerDTO;
 import com.codecool.askmateoop.controller.dto.NewQuestionDTO;
 import com.codecool.askmateoop.controller.dto.QuestionDTO;
 import com.codecool.askmateoop.dao.model.Question;
@@ -33,11 +34,8 @@ public class QuestionController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Integer> addNewQuestion(@RequestBody NewQuestionDTO question, HttpSession session) {
-        if (session.getAttribute("userId") == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        return ResponseEntity.ok(questionService.addNewQuestion(question));
+    public int addNewQuestion(@RequestBody NewQuestionDTO question) {
+        return questionService.addNewQuestion(question);
     }
 
     @DeleteMapping("/{id}")
