@@ -27,13 +27,11 @@ public class AnswerController {
 
     @PostMapping("/")
     public int addNewAnswer(@RequestBody NewAnswerDTO answer) {
-//        TODO
-        throw new UnsupportedOperationException();
+        return answerService.addNewAnswer(answer);
     }
 
     @DeleteMapping("/{id}")
     public boolean deleteAnswerById(@PathVariable int id) {
-//        TODO
-        throw new UnsupportedOperationException();
+        return answerService.deleteAnswerById(id);
     }
 }

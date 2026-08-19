@@ -1,5 +1,6 @@
 package com.codecool.askmateoop.dao;
 
+import com.codecool.askmateoop.controller.dto.NewAnswerDTO;
 import com.codecool.askmateoop.dao.model.Answer;
 import database.DatabaseConnection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,4 +58,38 @@ public class AnswersDaoJdbc implements AnswersDAO {
 
         return answers;
     }
+
+    @Override
+    public boolean deleteAnswerById(int id) {
+        String sql = "DELETE FROM answers WHERE id = ?";
+
+        try (Connection conn = databaseConnection.getConnection()){
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            int result = statement.executeUpdate();
+            return result > 0;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int addNewAnswer(NewAnswerDTO answer) {
+        String sql = "INSERT INTO answer (message) VALUES(?) RETURNING id";
+
+        try (Connection conn = databaseConnection.getConnection()){
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, answer.message());
+
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            return rs.getInt("id");
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
 }
