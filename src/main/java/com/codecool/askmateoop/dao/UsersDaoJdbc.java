@@ -72,4 +72,33 @@ public class UsersDaoJdbc implements UsersDAO {
             throw new RuntimeException("Failed to get user by username: " + username, e);
         }
     }
+
+    @Override
+    public int getUserByPoints(int id) {
+        String sql = """
+                   SELECT (
+                            (SELECT COUNT(*) FROM questions
+                                             WHERE user_id = ?) * 5 +
+                            (SELECT COUNT(*) FROM answers a JOIN questions q ON a.question_id = q.id
+                                             WHERE q.user_id = ? AND a.user_id != q.user_id) +
+                            (SELECT COUNT(*) FROM answers a JOIN questions q ON a.question_id = q.id
+                                             WHERE a.user_id = ? and q.user_id != ?) * 10
+                        ) AS points
+                """;
+
+        try (Connection conn = databaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.setInt(2, id);
+            stmt.setInt(3, id);
+            stmt.setInt(4, id);
+
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            return rs.getInt("points");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
