@@ -13,4 +13,6 @@ public interface QuestionsDAO {
     int addNewQuestion(NewQuestionDTO question);
 
     boolean deleteQuestionById(int id);
+
+    List<Question> searchQuestions(String searchTerm);
 }

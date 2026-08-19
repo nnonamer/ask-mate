@@ -3,7 +3,6 @@ package com.codecool.askmateoop.controller;
 import com.codecool.askmateoop.controller.dto.NewAnswerDTO;
 import com.codecool.askmateoop.controller.dto.NewQuestionDTO;
 import com.codecool.askmateoop.controller.dto.QuestionDTO;
-import com.codecool.askmateoop.dao.model.Question;
 import com.codecool.askmateoop.service.QuestionService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +40,10 @@ public class QuestionController {
     @DeleteMapping("/{id}")
     public boolean deleteQuestionById(@PathVariable int id) {
         return questionService.deleteQuestionById(id);
+    }
+
+    @GetMapping("/search/{searchTerm}")
+    public List<QuestionDTO> SearchQuestions(@PathVariable String searchTerm) {
+        return questionService.searchQuestions(searchTerm);
     }
 }

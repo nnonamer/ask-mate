@@ -25,13 +25,12 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
             ResultSet rs = statement.executeQuery(sql);
 
             while (rs.next()) {
-                Question question = new Question(
+               questions.add(new Question(
                         rs.getInt("id"),
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getTimestamp("submission_time").toLocalDateTime()
-                );
-                questions.add(question);
+                ));
             }
 
         } catch (SQLException e) {
@@ -90,6 +89,33 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
 
             int result = statement.executeUpdate();
             return result > 0;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Question> searchQuestions(String searchTerm) {
+        String sql = "SELECT * FROM questions WHERE title ILIKE ? OR description ILIKE ?";
+        List<Question> questions = new ArrayList<>();
+        searchTerm = "%"+searchTerm+"%";
+
+        try (Connection conn = dbConnection.getConnection()){
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, searchTerm);
+            statement.setString(2, searchTerm);
+
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                questions.add(new Question(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getTimestamp("submission_time").toLocalDateTime()
+                ));
+            }
+            return questions;
 
         }catch (SQLException e){
             throw new RuntimeException(e);
