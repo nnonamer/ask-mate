@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     username TEXT NOT NULL,
     password TEXT NOT NULL,
-    registration_date DATE NOT NULL,
+    registration_date DATE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS questions (

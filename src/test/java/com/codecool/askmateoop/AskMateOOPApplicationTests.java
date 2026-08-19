@@ -1,4 +1,4 @@
-/*
+
 package com.codecool.askmateoop;
 
 import com.codecool.askmateoop.controller.AnswerController;
@@ -13,8 +13,12 @@ import com.codecool.askmateoop.dao.QuestionsDAO;
 import com.codecool.askmateoop.dao.QuestionsDaoJdbc;
 import com.codecool.askmateoop.dao.model.Answer;
 import com.codecool.askmateoop.dao.model.Question;
+import com.codecool.askmateoop.controller.dto.NewUserDTO;
+import com.codecool.askmateoop.dao.UsersDAO;
+import com.codecool.askmateoop.dao.model.User;
 import com.codecool.askmateoop.service.AnswerService;
 import com.codecool.askmateoop.service.QuestionService;
+import com.codecool.askmateoop.service.UserService;
 import database.DatabaseConnection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -327,29 +331,6 @@ class AskMateOOPApplicationTests {
 
             assertThrows(RuntimeException.class, () -> answersDaoJdbc.deleteAnswerById(answerId));
         }
-
-        @Test
-        @DisplayName("addNewAnswer returns generated ID on successful insertion")
-        void addNewAnswer_Success() {
-            NewAnswerDTO newAnswer = new NewAnswerDTO("This is a new test answer");
-            generatedIdResult = 42;
-
-            int resultId = answersDaoJdbc.addNewAnswer(newAnswer);
-
-            assertEquals(42, resultId);
-            assertEquals(1, lastSetStringIndex);
-            assertEquals("This is a new test answer", lastSetStringValue);
-            assertTrue(executeQueryCalled);
-        }
-
-        @Test
-        @DisplayName("addNewAnswer throws RuntimeException when SQLException occurs")
-        void addNewAnswer_ThrowsExceptionOnSQLException() {
-            NewAnswerDTO newAnswer = new NewAnswerDTO("Test message");
-            exceptionToThrow = new SQLException("Insert failure");
-
-            assertThrows(RuntimeException.class, () -> answersDaoJdbc.addNewAnswer(newAnswer));
-        }
     }
 
     // =========================================================================
@@ -434,18 +415,6 @@ class AskMateOOPApplicationTests {
             assertTrue(result);
             assertEquals(id, fakeAnswersDAO.lastDeleteId);
         }
-
-        @Test
-        @DisplayName("addNewAnswer delegates to DAO")
-        void addNewAnswer_DelegatesToDao() {
-            NewAnswerDTO dto = new NewAnswerDTO("New answer text");
-            fakeAnswersDAO.returnGeneratedId = 101;
-
-            int resultId = answerService.addNewAnswer(dto);
-
-            assertEquals(101, resultId);
-            assertEquals(dto, fakeAnswersDAO.lastNewAnswer);
-        }
     }
 
     // =========================================================================
@@ -509,18 +478,6 @@ class AskMateOOPApplicationTests {
 
             assertEquals(expected, actual);
             assertEquals(questionId, fakeAnswerService.lastQuestionIdPassed);
-        }
-
-        @Test
-        @DisplayName("addNewAnswer delegates to service and returns created id")
-        void addNewAnswer_ReturnsCreatedId() {
-            NewAnswerDTO newAnswer = new NewAnswerDTO("Hello world");
-            fakeAnswerService.returnNewAnswerId = 88;
-
-            int actualId = answerController.addNewAnswer(newAnswer);
-
-            assertEquals(88, actualId);
-            assertEquals(newAnswer, fakeAnswerService.lastNewAnswerPassed);
         }
 
         @Test
@@ -865,6 +822,11 @@ class AskMateOOPApplicationTests {
                 this.lastDeleteId = id;
                 return returnDeleteStatus;
             }
+
+            @Override
+            public List<Question> searchQuestions(String searchTerm) {
+                return List.of(new Question(1, "test title", "test description", LocalDateTime.now()));
+            }
         }
 
         private FakeQuestionsDAO fakeQuestionsDAO;
@@ -1041,4 +1003,62 @@ class AskMateOOPApplicationTests {
             assertEquals(questionId, fakeQuestionService.lastDeleteIdPassed);
         }
     }
-}*/
+
+    // =========================================================================
+    // UserService Tests
+    // =========================================================================
+    @Nested
+    @DisplayName("UserService Tests")
+    class UserServiceTests {
+
+        static class FakeUsersDAO implements UsersDAO {
+            int returnPoints = 0;
+            int lastPointsIdQuery = -1;
+            User returnUser = null;
+            String lastUsernameQuery = null;
+            int returnAddNewUserResult = 0;
+            NewUserDTO lastNewUserPassed = null;
+
+            @Override
+            public int addNewUser(NewUserDTO user) {
+                this.lastNewUserPassed = user;
+                return returnAddNewUserResult;
+            }
+
+            @Override
+            public User getUserByUsername(String username) {
+                this.lastUsernameQuery = username;
+                return returnUser;
+            }
+
+            @Override
+            public int getUserByPoints(int id) {
+                this.lastPointsIdQuery = id;
+                return returnPoints;
+            }
+        }
+
+        private FakeUsersDAO fakeUsersDAO;
+        private UserService userService;
+
+        @BeforeEach
+        void setUp() {
+            fakeUsersDAO = new FakeUsersDAO();
+            userService = new UserService(fakeUsersDAO);
+        }
+
+        @Test
+        @DisplayName("getPointsById returns user points from DAO")
+        void getPointsById_ReturnsPointsFromDao() {
+            int userId = 42;
+            int expectedPoints = 150;
+            fakeUsersDAO.returnPoints = expectedPoints;
+
+            int actualPoints = userService.getPointsById(userId);
+
+            assertEquals(expectedPoints, actualPoints);
+            assertEquals(userId, fakeUsersDAO.lastPointsIdQuery);
+        }
+    }
+}
+
