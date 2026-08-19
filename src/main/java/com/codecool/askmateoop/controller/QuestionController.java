@@ -38,4 +38,9 @@ public class QuestionController {
     public boolean deleteQuestionById(@PathVariable int id) {
         return questionService.deleteQuestionById(id);
     }
+
+    @GetMapping("/search/{searchTerm}")
+    public List<QuestionDTO> SearchQuestions(@PathVariable String searchTerm) {
+        return questionService.searchQuestions(searchTerm);
+    }
 }

@@ -40,4 +40,13 @@ public class QuestionService {
     public int addNewQuestion(NewQuestionDTO question) {
         return questionsDAO.addNewQuestion(question);
     }
+
+    public List<QuestionDTO> searchQuestions(String searchTerm){
+        return questionsDAO.searchQuestions(searchTerm).stream().map(q -> new QuestionDTO(
+                q.id(),
+                q.title(),
+                q.description(),
+                q.created()
+        )).toList();
+    }
 }
