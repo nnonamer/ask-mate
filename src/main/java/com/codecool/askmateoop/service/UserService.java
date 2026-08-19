@@ -32,6 +32,6 @@ public class UserService {
     }
 
     public int getPointsById(int id){
-
+        return usersDAO.getUserByPoints(id);
     }
 }

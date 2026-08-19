@@ -43,8 +43,8 @@ public class UserController {
         session.invalidate();
     }
 
-    @GetMapping("/{id}/poinsts")
+    @GetMapping("/{id}/points")
     public int getPointsById(@PathVariable int id){
-
+        return userService.getPointsById(id);
     }
 }
