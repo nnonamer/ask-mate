@@ -77,9 +77,12 @@ public class UsersDaoJdbc implements UsersDAO {
     public int getUserByPoints(int id) {
         String sql = """
                    SELECT (
-                            (SELECT COUNT(*) FROM questions WHERE user_id = ?) * 5 +
-                            (SELECT COUNT(*) FROM answers a JOIN questions q ON a.question_id = q.id WHERE a.user_id = ? and q.user_id != ?) * 10 +
-                            (SELECT COUNT(*) FROM answers a JOIN questions q ON a.question_id = q.id WHERE q.user_id = ? AND a.user_id != q.user_id)
+                            (SELECT COUNT(*) FROM questions
+                                             WHERE user_id = ?) * 5 +
+                            (SELECT COUNT(*) FROM answers a JOIN questions q ON a.question_id = q.id
+                                             WHERE q.user_id = ? AND a.user_id != q.user_id) +
+                            (SELECT COUNT(*) FROM answers a JOIN questions q ON a.question_id = q.id
+                                             WHERE a.user_id = ? and q.user_id != ?) * 10
                         ) AS points
                 """;
 
