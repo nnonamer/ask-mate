@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const message = document.getElementById('login-message');
 
     form.addEventListener('submit', async (event) => {
+        console.log("sasas");
         event.preventDefault();
         message.textContent = '';
         message.style.color = '';

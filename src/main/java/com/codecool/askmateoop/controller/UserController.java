@@ -26,15 +26,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody LoginUserDTO user, HttpSession session) {
+    public ResponseEntity<UserDTO> login(@RequestBody LoginUserDTO user) {
         UserDTO loggedInUser = userService.login(user);
 
         if (loggedInUser == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
-        session.setAttribute("userId", loggedInUser.id());
-        session.setAttribute("username", loggedInUser.username());
         return ResponseEntity.ok(loggedInUser);
     }
 
@@ -44,9 +41,13 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-
     @GetMapping("/{id}/points")
     public int getPointsById(@PathVariable int id){
         return userService.getPointsById(id);
+    }
+
+    @GetMapping("/{id}")
+    public UserDTO getUserById(@PathVariable int id){
+        return userService.getUserById(id);
     }
 }

@@ -9,4 +9,6 @@ public interface UsersDAO {
     User getUserByUsername(String username);
 
     int getUserByPoints(int id);
+
+    User getUserById(int id);
 }

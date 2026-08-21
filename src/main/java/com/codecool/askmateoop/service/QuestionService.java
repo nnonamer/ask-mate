@@ -24,13 +24,14 @@ public class QuestionService {
                q.id(),
                q.title(),
                q.description(),
-               q.created()
+               q.created(),
+               q.userId()
        )).toList();
     }
 
     public QuestionDTO getQuestionById(int id) {
        Question question = questionsDAO.getQuestionById(id);
-       return new QuestionDTO(question.id(), question.title(), question.description(), question.created());
+       return new QuestionDTO(question.id(), question.title(), question.description(), question.created(), question.userId());
     }
 
     public boolean deleteQuestionById(int id) {
@@ -46,7 +47,8 @@ public class QuestionService {
                 q.id(),
                 q.title(),
                 q.description(),
-                q.created()
+                q.created(),
+                q.userId()
         )).toList();
     }
 }

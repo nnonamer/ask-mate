@@ -1,13 +1,9 @@
 package com.codecool.askmateoop.controller;
 
-import com.codecool.askmateoop.controller.dto.NewAnswerDTO;
 import com.codecool.askmateoop.controller.dto.NewQuestionDTO;
 import com.codecool.askmateoop.controller.dto.QuestionDTO;
 import com.codecool.askmateoop.service.QuestionService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

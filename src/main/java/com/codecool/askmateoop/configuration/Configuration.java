@@ -6,9 +6,11 @@ import database.DatabaseConnection;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootConfiguration
-public class Configuration {
+public class Configuration implements WebMvcConfigurer {
     @Value("${askmate.database.url}")
     private String dbUrl;
 
@@ -28,4 +30,13 @@ public class Configuration {
         return new QuestionsDaoJdbc(databaseConnection);
     }
 
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*");
+    }
+
 }
+

@@ -1,0 +1,5 @@
+#questionContainer{
+  min-width: 50vw;
+  min-height: 30vh;
+  border: 1px solid black;
+}

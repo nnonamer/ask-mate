@@ -29,7 +29,8 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
                         rs.getInt("id"),
                         rs.getString("title"),
                         rs.getString("description"),
-                        rs.getTimestamp("submission_time").toLocalDateTime()
+                        rs.getTimestamp("submission_time").toLocalDateTime(),
+                        rs.getInt("user_id")
                 ));
             }
 
@@ -52,7 +53,8 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
                    rs.getInt("id"),
                    rs.getString("title"),
                    rs.getString("description"),
-                   rs.getTimestamp("submission_time").toLocalDateTime()
+                   rs.getTimestamp("submission_time").toLocalDateTime(),
+                   rs.getInt("user_id")
            );
 
        }catch (SQLException e){
@@ -112,7 +114,8 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
                         rs.getInt("id"),
                         rs.getString("title"),
                         rs.getString("description"),
-                        rs.getTimestamp("submission_time").toLocalDateTime()
+                        rs.getTimestamp("submission_time").toLocalDateTime(),
+                        rs.getInt("user_id")
                 ));
             }
             return questions;

@@ -34,4 +34,9 @@ public class UserService {
     public int getPointsById(int id){
         return usersDAO.getUserByPoints(id);
     }
+
+    public UserDTO getUserById(int id){
+        User user = usersDAO.getUserById(id);
+        return new UserDTO(user.id(), user.username());
+    }
 }

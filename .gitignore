@@ -30,3 +30,7 @@ target/
 
 *.properties
 src/main/resources/application.properties
+
+node_modules/
+*.env
+dist/

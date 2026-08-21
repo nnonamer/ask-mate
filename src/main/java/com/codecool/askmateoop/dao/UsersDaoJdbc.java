@@ -1,6 +1,7 @@
 package com.codecool.askmateoop.dao;
 
 import com.codecool.askmateoop.controller.dto.NewUserDTO;
+import com.codecool.askmateoop.controller.dto.UserDTO;
 import com.codecool.askmateoop.dao.model.User;
 import database.DatabaseConnection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class UsersDaoJdbc implements UsersDAO {
     @Override
     public User getUserByUsername(String username) {
         String sql = """
-                SELECT id, username, password, registration_date, points
+                SELECT id, username, password, registration_date
                 FROM users
                 WHERE username = ?
                 """;
@@ -61,8 +62,7 @@ public class UsersDaoJdbc implements UsersDAO {
                             resultSet.getInt("id"),
                             resultSet.getString("username"),
                             resultSet.getString("password"),
-                            resultSet.getDate("registration_date").toLocalDate(),
-                            (Integer) resultSet.getObject("points")
+                            resultSet.getDate("registration_date").toLocalDate()
                     );
                 }
                 return null;
@@ -98,6 +98,26 @@ public class UsersDaoJdbc implements UsersDAO {
             return rs.getInt("points");
 
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public User getUserById(int id) {
+        String sql = "SELECT * FROM users WHERE id = ?";
+
+        try (Connection conn = databaseConnection.getConnection()){
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            return new User(
+                    rs.getInt("id"),
+                    rs.getString("username"),
+                    rs.getString("password"),
+                    rs.getDate("registration_date").toLocalDate()
+            );
+        } catch (SQLException e){
             throw new RuntimeException(e);
         }
     }
