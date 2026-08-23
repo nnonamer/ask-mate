@@ -54,8 +54,7 @@ function Home() {
           </Col>
         </Row>
       </Card>
-      
-      {/* Questions Feed */}
+
       {questions ? (
         questions.length === 0 ? (
           <Card className="text-center p-5 border-0 shadow-sm bg-white">
