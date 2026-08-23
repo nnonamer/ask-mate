@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Form, Button, Card, Badge, Spinner } from 'react-bootstrap';
-import { useParams, Link } from 'react-router-dom'
+import {useParams, Link, useNavigate} from 'react-router-dom'
 import { formatDate } from '../util';
 import Answer from './components/Answer';
 import { useAuth } from '../context/AuthContext';
@@ -17,6 +17,7 @@ function QuestionPage() {
   const [errorMsg, setErrorMsg] = useState(null);
 
   const [askerName, setAskerName] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchQuestion() {
@@ -87,7 +88,7 @@ function QuestionPage() {
         method: 'DELETE'
       });
       if (resp.ok) {
-        window.location.href = '/';
+        navigate('/');
       }
     } catch (err) {
       console.error('Error deleting question:', err);
@@ -121,7 +122,6 @@ function QuestionPage() {
           </Card.Body>
         </Card>
 
-        {/* Answers Section */}
         <div className="mb-4">
           <h4 className="fw-bold mb-3 d-flex align-items-center gap-2">
             Answers <Badge bg="secondary" className="rounded-pill fs-6">{answers.length}</Badge>

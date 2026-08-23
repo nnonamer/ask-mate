@@ -46,7 +46,7 @@ export default function Auth() {
 
         if (resp.ok){
           const data = await resp.json();
-          const userPayload = {id: data.id, username: formData.username}
+          const userPayload = {id: typeof data === 'number' ? data : data.id, username: formData.username}
           login(userPayload);
           navigate('/');
 
