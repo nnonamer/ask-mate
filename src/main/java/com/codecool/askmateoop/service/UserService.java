@@ -5,6 +5,7 @@ import com.codecool.askmateoop.controller.dto.NewUserDTO;
 import com.codecool.askmateoop.controller.dto.UserDTO;
 import com.codecool.askmateoop.dao.UsersDAO;
 import com.codecool.askmateoop.dao.model.User;
+import com.codecool.askmateoop.util.PasswordHasher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +19,14 @@ public class UserService {
     }
 
     public int addNewUser(NewUserDTO user) {
-        return usersDAO.addNewUser(user);
+        NewUserDTO hashedUser = new NewUserDTO(user.username(), PasswordHasher.hash(user.password()));
+        return usersDAO.addNewUser(hashedUser);
     }
 
     public UserDTO login(LoginUserDTO credentials) {
         User user = usersDAO.getUserByUsername(credentials.username());
 
-        if (user == null || !user.password().equals(credentials.password())) {
+        if (user == null || !user.password().equals(PasswordHasher.hash(credentials.password()))) {
             return null;
         }
 
